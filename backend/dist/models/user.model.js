@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const uuid_1 = require("uuid");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 class UserModel {
     constructor() {
         this.users = [];
-        //create(newUser)
     }
     //findByUsername(username)
     findByUsername(username) {
@@ -34,6 +34,23 @@ class UserModel {
             const isMatch = yield bcrypt_1.default.compare(password, user.password);
             if (!isMatch)
                 return false;
+            return user;
+        });
+    }
+    //create(newUser)
+    createUser(newUser) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { username, password } = newUser;
+            const foundIndex = this.users.findIndex(u => u.username === username);
+            if (foundIndex !== -1)
+                return false;
+            const hashedPassword = yield bcrypt_1.default.hash(password, 12);
+            const user = {
+                id: (0, uuid_1.v4)(),
+                username,
+                password: hashedPassword
+            };
+            this.users.push(user);
             return user;
         });
     }

@@ -21,6 +21,27 @@ const GetByUsername = (req: Request<{ username: string }>, res: Response) => {
 }
 
 /**
+ * Add new user
+ * 
+ * @param {Request<{ id: string}>} req
+ * @param {Response} res
+ * @returns {void} Returns newly created user.
+ */
+const addUser = async (req: Request<{}, {}, Omit<User, 'id'>>, res: Response) => {
+    const { username, password } = req.body
+    if (!username || !password) {
+      res.status(500).json({ error: 'Username/password is empty!' })
+      return
+    }
+    const user = await userModel.createUser({ username, password })
+    if (!user) {
+      res.status(409).json({ error: 'Username is taken!' })
+      return
+    }
+    res.status(201).json(user)
+  }
+
+/**
  * Login user
  * 
  * @param {Request<{}, {}, Omit<User, 'id'>>} req
@@ -46,5 +67,6 @@ const loginUser = async (req: Request<{}, {}, Omit<User, 'id'>>, res: Response) 
   }
 export default {
     GetByUsername,
-    loginUser
+    loginUser,
+    addUser
 }

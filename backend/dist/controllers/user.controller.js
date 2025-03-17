@@ -30,6 +30,26 @@ const GetByUsername = (req, res) => {
     res.status(200).json(user);
 };
 /**
+ * Add new user
+ *
+ * @param {Request<{ id: string}>} req
+ * @param {Response} res
+ * @returns {void} Returns newly created user.
+ */
+const addUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        res.status(500).json({ error: 'Username/password is empty!' });
+        return;
+    }
+    const user = yield user_model_1.default.createUser({ username, password });
+    if (!user) {
+        res.status(409).json({ error: 'Username is taken!' });
+        return;
+    }
+    res.status(201).json(user);
+});
+/**
  * Login user
  *
  * @param {Request<{}, {}, Omit<User, 'id'>>} req
@@ -55,5 +75,6 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.default = {
     GetByUsername,
-    loginUser
+    loginUser,
+    addUser
 };
