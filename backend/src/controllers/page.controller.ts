@@ -1,3 +1,4 @@
+import { sign } from 'crypto'
 import { Request, Response } from 'express'
 
 //home
@@ -36,9 +37,35 @@ const clearCookie = (req: Request, res: Response) => {
     })
 }
 
-export default {
+/**
+ * Displays the sign up page
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Renders the sign up page.
+ */
+const signup = (req: Request, res: Response) => {
+    res.status(200).render('signup')
+  }
+  
+  /**
+   * Displays the login page
+   * 
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {void} Renders the login page.
+   */
+  const login = (req: Request, res: Response) => {
+    res.status(200).render('login')
+  }
+
+  
+  export default {
+    signup,
+    login,
     home,
-    setCookie,
     checkCookie,
-    clearCookie
-}
+    clearCookie,
+    setCookie
+  }
+

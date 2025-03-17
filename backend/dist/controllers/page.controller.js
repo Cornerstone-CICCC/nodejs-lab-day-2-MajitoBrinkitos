@@ -32,9 +32,31 @@ const clearCookie = (req, res) => {
         content: "Cookie cleared"
     });
 };
+/**
+ * Displays the sign up page
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Renders the sign up page.
+ */
+const signup = (req, res) => {
+    res.status(200).render('signup');
+};
+/**
+ * Displays the login page
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Renders the login page.
+ */
+const login = (req, res) => {
+    res.status(200).render('login');
+};
 exports.default = {
+    signup,
+    login,
     home,
-    setCookie,
     checkCookie,
-    clearCookie
+    clearCookie,
+    setCookie
 };
